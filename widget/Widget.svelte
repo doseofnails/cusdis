@@ -99,37 +99,51 @@
       </div>
     {/if}
 
-    <Reply />
+    <!-- Side-by-side layout: form on left, comments on right -->
+    <div style="display: flex; gap: 2rem; align-items: flex-start;">
 
-    <div class="my-8" />
+      <!-- Left: Comment Form -->
+      <div style="flex: 1; min-width: 0;">
+        <Reply />
+      </div>
 
-    <div class="mt-4 px-1">
-      {#if loadingComments}
-        <div class="text-gray-900 dark:text-gray-100">
-          {t('loading')}...
-        </div>
-      {:else}
-        {#each commentsResult.data as comment (comment.id)}
-          <Comment {comment} firstFloor={true} />
-        {/each}
-        {#if commentsResult.pageCount > 1}
-          <div>
-            {#each Array(commentsResult.pageCount) as _, index}
-              <button
-                class="px-2 py-1 text-sm mr-2 dark:text-gray-200"
-                class:underline={page === index + 1}
-                on:click={(_) => onClickPage(index + 1)}>{index + 1}</button
-              >
-            {/each}
+      <!-- Divider -->
+      <div style="width: 1px; background-color: #e5e7eb; align-self: stretch; flex-shrink: 0;"></div>
+
+      <!-- Right: Comments List -->
+      <div style="flex: 1; min-width: 0;" class="px-1">
+        {#if loadingComments}
+          <div class="text-gray-900 dark:text-gray-100">
+            {t('loading')}...
           </div>
+        {:else if commentsResult.data.length === 0}
+          <div class="text-gray-400 text-sm">
+            {t('no_comments') || 'No reviews yet. Be the first!'}
+          </div>
+        {:else}
+          {#each commentsResult.data as comment (comment.id)}
+            <Comment {comment} firstFloor={true} />
+          {/each}
+          {#if commentsResult.pageCount > 1}
+            <div>
+              {#each Array(commentsResult.pageCount) as _, index}
+                <button
+                  class="px-2 py-1 text-sm mr-2 dark:text-gray-200"
+                  class:underline={page === index + 1}
+                  on:click={(_) => onClickPage(index + 1)}>{index + 1}</button
+                >
+              {/each}
+            </div>
+          {/if}
         {/if}
-      {/if}
+      </div>
+
     </div>
 
     <div class="my-8" />
 
     <div class="text-center text-gray-500 dark:text-gray-100 text-xs">
-      <a class="underline " href="https://cusdis.com">{t('powered_by')}</a>
+      <a class="underline" href="https://cusdis.com">{t('powered_by')}</a>
     </div>
   </div>
 {/if}

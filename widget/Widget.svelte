@@ -99,19 +99,11 @@
       </div>
     {/if}
 
-    <!-- Side-by-side layout: form on left, comments on right -->
-    <div style="display: flex; gap: 2rem; align-items: flex-start;">
+    <!-- Responsive layout: stacked on mobile, side-by-side on desktop -->
+    <div class="cusdis-layout">
 
-      <!-- Left: Comment Form -->
-      <div style="flex: 1; min-width: 0;">
-        <Reply />
-      </div>
-
-      <!-- Divider -->
-      <div style="width: 1px; background-color: #e5e7eb; align-self: stretch; flex-shrink: 0;"></div>
-
-      <!-- Right: Comments List -->
-      <div style="flex: 1; min-width: 0;" class="px-1">
+      <!-- Top on mobile / Left on desktop: Comments List -->
+      <div class="cusdis-comments-col px-1">
         {#if loadingComments}
           <div class="text-gray-900 dark:text-gray-100">
             {t('loading')}...
@@ -138,6 +130,14 @@
         {/if}
       </div>
 
+      <!-- Divider (visible only on desktop) -->
+      <div class="cusdis-divider"></div>
+
+      <!-- Bottom on mobile / Right on desktop: Comment Form -->
+      <div class="cusdis-form-col">
+        <Reply />
+      </div>
+
     </div>
 
     <div class="my-8" />
@@ -147,3 +147,43 @@
     </div>
   </div>
 {/if}
+
+<style>
+  /* Mobile: stacked vertically, comments first */
+  .cusdis-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .cusdis-divider {
+    display: none;
+  }
+
+  /* Desktop (640px+): side by side, comments left / form right */
+  @media (min-width: 640px) {
+    .cusdis-layout {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 2rem;
+    }
+
+    .cusdis-comments-col {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cusdis-form-col {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cusdis-divider {
+      display: block;
+      width: 1px;
+      background-color: #e5e7eb;
+      align-self: stretch;
+      flex-shrink: 0;
+    }
+  }
+</style>

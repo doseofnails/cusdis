@@ -130,8 +130,9 @@
         {/if}
       </div>
 
-      <!-- Divider (visible only on desktop) -->
+      <!-- Horizontal rule: mobile only / Vertical divider: desktop only -->
       <div class="cusdis-divider"></div>
+      <hr class="cusdis-hr" />
 
       <!-- Bottom on mobile / Right on desktop: Comment Form -->
       <div class="cusdis-form-col">
@@ -156,12 +157,23 @@
     gap: 1.5rem;
   }
 
+  /* Mobile horizontal rule */
+  .cusdis-hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    width: 100%;
+  }
+
   .cusdis-divider {
     display: none;
   }
 
   /* Desktop (640px+): side by side, comments left / form right */
   @media (min-width: 640px) {
+    .cusdis-hr {
+      display: none;
+    }
+
     .cusdis-layout {
       flex-direction: row;
       align-items: flex-start;
@@ -178,7 +190,14 @@
       min-width: 0;
     }
 
-    .cusdis-divider {
+    /* Mobile horizontal rule */
+  .cusdis-hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    width: 100%;
+  }
+
+  .cusdis-divider {
       display: block;
       width: 1px;
       background-color: #e5e7eb;
